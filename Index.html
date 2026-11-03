@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HitVex // Loadstring</title>
+    <style>
+        :root {
+            --bg: #0e0e10;
+            --panel: #18181c;
+            --line: #2c2c34;
+            --text: #e0e0e6;
+            --dim: #787884;
+            --acc: #5ac88c;
+            --red: #d45858;
+            --dark: #08080a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            overflow: hidden;
+        }
+
+        .header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--line);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .title {
+            color: var(--acc);
+            font-weight: bold;
+            font-size: 16px;
+            letter-spacing: 1px;
+        }
+
+        .status {
+            font-size: 12px;
+            color: var(--dim);
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .loadstring-box {
+            background-color: var(--dark);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 16px;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        code {
+            font-family: inherit;
+            font-size: 14px;
+            color: var(--acc);
+            word-break: break-all;
+            display: block;
+            padding-right: 80px; /* space for button */
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 50%;
+            right: 12px;
+            transform: translateY(-50%);
+            background-color: var(--panel);
+            color: var(--text);
+            border: 1px solid var(--line);
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .copy-btn:hover {
+            background-color: var(--line);
+        }
+
+        .copy-btn.copied {
+            background-color: var(--acc);
+            color: var(--dark);
+            border-color: var(--acc);
+        }
+
+        .preview-btn {
+            display: block;
+            width: 100%;
+            background-color: var(--panel);
+            color: var(--acc);
+            border: 1px solid var(--acc);
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+
+        .preview-btn:hover {
+            background-color: var(--acc);
+            color: var(--dark);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <div class="title">HitVex</div>
+            <div class="status">[ status: online ]</div>
+        </div>
+        
+        <div class="content">
+            <div class="loadstring-box">
+                <!-- Make sure hitvex.lua matches your actual filename on Vercel -->
+                <code id="ls-code">loadstring(game:HttpGet("https://roblox-loadstring.vercel.app/hitvex.lua"))()</code>
+                <button class="copy-btn" onclick="copyCode()">copy</button>
+            </div>
+
+            <!-- This links to the raw file so you can still see the code -->
+            <a href="/hitvex.lua" class="preview-btn" target="_blank">view raw code</a>
+        </div>
+    </div>
+
+    <script>
+        function copyCode() {
+            const codeText = document.getElementById('ls-code').innerText;
+            navigator.clipboard.writeText(codeText).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                btn.innerText = 'copied!';
+                btn.classList.add('copied');
+                
+                setTimeout(() => {
+                    btn.innerText = 'copy';
+                    btn.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>
